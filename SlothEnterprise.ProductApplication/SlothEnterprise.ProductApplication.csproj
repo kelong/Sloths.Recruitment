@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SlothEnterprise.External\SlothEnterprise.External.csproj" />
+    <ProjectReference Include="..\Sloths.Recruitment.Contracts\Sloths.Recruitment.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

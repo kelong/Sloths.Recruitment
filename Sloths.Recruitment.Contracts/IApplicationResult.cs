@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SlothEnterprise.External
+namespace Sloths.Recruitment.Contracts
 {
     public interface IApplicationResult
     {

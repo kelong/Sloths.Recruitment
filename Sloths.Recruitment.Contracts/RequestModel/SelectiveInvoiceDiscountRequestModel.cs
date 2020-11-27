@@ -1,12 +1,17 @@
-﻿namespace SlothEnterprise.ProductApplication.Products
+﻿namespace Sloths.Recruitment.Contracts.RequestModel
 {
-    public class SelectiveInvoiceDiscount : IProduct
+    public class SelectiveInvoiceDiscountRequestModel : IProduct
     {
+        /// <summary>
+        /// Id of the invoice
+        /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Proposed networth of the Invoice
         /// </summary>
         public decimal InvoiceAmount { get; set; }
+
         /// <summary>
         /// Percentage of the networth agreed and advanced to seller
         /// </summary>

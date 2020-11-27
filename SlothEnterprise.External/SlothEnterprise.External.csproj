@@ -6,4 +6,8 @@
     <AssemblyName>SlothEnterprise.External</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="V1" />
+  </ItemGroup>
+
 </Project>

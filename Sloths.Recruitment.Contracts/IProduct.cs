@@ -1,4 +1,4 @@
-﻿namespace SlothEnterprise.ProductApplication.Products
+﻿namespace Sloths.Recruitment.Contracts
 {
     public interface IProduct
     {

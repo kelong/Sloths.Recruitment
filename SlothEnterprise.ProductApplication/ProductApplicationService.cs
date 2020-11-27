@@ -1,8 +1,7 @@
-﻿using System;
-using SlothEnterprise.External;
-using SlothEnterprise.External.V1;
-using SlothEnterprise.ProductApplication.Applications;
+﻿using SlothEnterprise.ProductApplication.Applications;
 using SlothEnterprise.ProductApplication.Products;
+using Sloths.Recruitment.Contracts;
+using Sloths.Recruitment.Contracts.RequestModel;
 
 namespace SlothEnterprise.ProductApplication
 {
@@ -19,45 +18,59 @@ namespace SlothEnterprise.ProductApplication
             _businessLoansService = businessLoansService;
         }
 
-        public int SubmitApplicationFor(ISellerApplication application)
+        public bool IsSubmittedApplicationForSelectiveInvoiceDiscountSuccess(
+            SelectiveInvoiceDiscountRequestModel product, int companyNumber)
         {
-
-            if (application.Product is SelectiveInvoiceDiscount sid)
+            if (product == null)
             {
-                return _selectInvoiceService.SubmitApplicationFor(application.CompanyData.Number.ToString(), sid.InvoiceAmount, sid.AdvancePercentage);
+                return false;
             }
 
-            if (application.Product is ConfidentialInvoiceDiscount cid)
-            {
-                var result = _confidentialInvoiceWebService.SubmitApplicationFor(
-                    new CompanyDataRequest
-                    {
-                        CompanyFounded = application.CompanyData.Founded,
-                        CompanyNumber = application.CompanyData.Number,
-                        CompanyName = application.CompanyData.Name,
-                        DirectorName = application.CompanyData.DirectorName
-                    }, cid.TotalLedgerNetworth, cid.AdvancePercentage, cid.VatRate);
+            return _selectInvoiceService.SubmitApplicationFor(
+                companyNumber, product.InvoiceAmount, product.AdvancePercentage
+            );
+        }
 
-                return (result.Success) ? result.ApplicationId ?? -1 : -1;
+        public bool IsSubmittedApplicationForConfidentialInvoiceDiscountSuccess(
+            ConfidentialInvoiceDiscountRequestModel product, ISellerApplication application)
+        {
+            if (application.CompanyData == null || product == null)
+            {
+                return false;
             }
 
-            if (application.Product is BusinessLoans loans)
-            {
-                var result = _businessLoansService.SubmitApplicationFor(new CompanyDataRequest
+            var result = _confidentialInvoiceWebService.SubmitApplicationFor(
+                new CompanyDataRequestModel
                 {
                     CompanyFounded = application.CompanyData.Founded,
                     CompanyNumber = application.CompanyData.Number,
                     CompanyName = application.CompanyData.Name,
                     DirectorName = application.CompanyData.DirectorName
-                }, new LoansRequest
-                {
-                    InterestRatePerAnnum = loans.InterestRatePerAnnum,
-                    LoanAmount = loans.LoanAmount
-                });
-                return (result.Success) ? result.ApplicationId ?? -1 : -1;
+                }, product);
+
+            return result.Success && result.ApplicationId.HasValue;
+        }
+
+        public bool IsSubmittedApplicationForBusinessLoansSuccess(
+            BusinessLoans product, ISellerApplication application)
+        {
+            if (application?.CompanyData == null || application.Product == null || product == null)
+            {
+                return false;
             }
 
-            throw new InvalidOperationException();
+            var result = _businessLoansService.SubmitApplicationFor(new CompanyDataRequestModel
+            {
+                CompanyFounded = application.CompanyData.Founded,
+                CompanyNumber = application.CompanyData.Number,
+                CompanyName = application.CompanyData.Name,
+                DirectorName = application.CompanyData.DirectorName
+            }, new LoansRequestModel
+            {
+                InterestRatePerAnnum = product.InterestRatePerAnnum,
+                LoanAmount = product.LoanAmount
+            });
+            return result.Success && result.ApplicationId.HasValue;
         }
     }
 }

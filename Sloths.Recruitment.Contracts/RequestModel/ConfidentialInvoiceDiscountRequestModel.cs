@@ -1,6 +1,8 @@
-﻿namespace SlothEnterprise.ProductApplication.Products
+﻿using Sloths.Recruitment.Contracts.StaticValues;
+
+namespace Sloths.Recruitment.Contracts.RequestModel
 {
-    public class ConfidentialInvoiceDiscount : IProduct
+    public class ConfidentialInvoiceDiscountRequestModel : IProduct
     {
         public int Id { get; set; }
         public decimal TotalLedgerNetworth { get; set; }

@@ -10,7 +10,6 @@ namespace SlothEnterprise.ProductApplication.Applications
         DateTime Founded { get; set; }
     }
 
-
     public class SellerCompanyData : ISellerCompanyData
     {
         public string Name { get; set; }

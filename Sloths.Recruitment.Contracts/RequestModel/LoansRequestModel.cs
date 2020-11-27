@@ -1,6 +1,6 @@
-﻿namespace SlothEnterprise.External
+﻿namespace Sloths.Recruitment.Contracts.RequestModel
 {
-    public class LoansRequest
+    public class LoansRequestModel
     {
         /// <summary>
         /// Per annum interest rate
